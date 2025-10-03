@@ -1,0 +1,3 @@
+location ~/(ru|en)/(symfony)/(6.4)/(.*\.(png|ico|gif|jpg|jpeg|css|js|woff|ttf|svg))$ {
+    alias /var/www/storage/app/release/$2/$3/$1/$4;
+}

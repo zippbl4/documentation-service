@@ -1,0 +1,28 @@
+{
+    "version": "0.0.4",
+    "name": "app/archive-uploader",
+    "description": "Laravel Nova tool загрузки архива",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.3|^8.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Archive\\Uploader\\": "tests/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Archive\\Uploader\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

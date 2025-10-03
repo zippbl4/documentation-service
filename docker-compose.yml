@@ -1,0 +1,147 @@
+networks:
+  network: ~
+
+services:
+  backend:
+    depends_on:
+      - database
+    networks:
+      - network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        UNAME: ${UNAME}
+    working_dir: /var/www/
+    volumes:
+      - ./src/:/var/www/
+      - ./docs/:/var/www/storage/app/docs/
+      - ./docker/php/config/my.ini:/usr/local/etc/php/conf.d/40-custom.ini
+      - ./docker/php/logs/:/var/log/
+      - ./docker/nginx/templates/aspects_unsafe/:${APP_ASPECTS_UNSAFE_FOLDER}
+    environment:
+      XDEBUG_MODE: develop,debug
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9000
+      PHP_IDE_CONFIG: serverName=backend
+    env_file:
+      - .env
+  nginx:
+    depends_on:
+      - backend
+    networks:
+      - network
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/config/conf.d/:/etc/nginx/conf.d
+      - ./docker/nginx/certs/:/etc/nginx/certs
+      - ./docker/nginx/htpasswd/:/etc/nginx/htpasswd
+      - ./docker/nginx/templates/:/etc/nginx/templates
+      - ./docker/nginx/logs/:/var/log/nginx
+      - ./src/:/var/www/
+      - ./docs/:/var/www/storage/app/docs/
+    environment:
+      NGINX_BACKEND_UPSTREAM: backend:9000
+    env_file:
+      - .env
+  database:
+    networks:
+      - network
+    build:
+      context: ./
+      dockerfile: ./docker/mysql/Dockerfile
+    volumes:
+      - database:/var/lib/mysql:rw
+      - ./docker/mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/mysql/logs/:/var/log/mysql:rw
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${APP_DB_PASSWORD}
+      MYSQL_DATABASE: ${APP_DB}
+      MYSQL_USER: ${APP_DB_USER}
+      MYSQL_PASSWORD: ${APP_DB_PASSWORD}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+  mongodb:
+    networks:
+      - network
+    image: mongo:8
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${APP_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${APP_DB_PASSWORD}
+  elasticsearch:
+    image: 'elasticsearch:7.17.0'
+    environment:
+      - discovery.type=single-node
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - network
+  redis:
+    image: redis:7.4.2-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - network
+
+  # NODE.JS:
+
+  readability:
+    tty: true
+    networks:
+      - network
+    build:
+      context: ./
+      dockerfile: ./docker/node/Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        UNAME: ${UNAME}
+    volumes:
+      - ./readability_src/:/var/www/
+    working_dir: /var/www/
+    expose:
+      - "3000"
+    command:
+      - "app.js"
+  socket.io:
+    tty: true
+    networks:
+      - network
+    build:
+      context: ./
+      dockerfile: ./docker/node/Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        UNAME: ${UNAME}
+    volumes:
+      - ./socketio_src/:/var/www/
+    working_dir: /var/www/
+    ports:
+      - "6001:6001"
+    command:
+      - "app.js"
+volumes:
+  database:
+  mongodb:
+  elasticsearch:

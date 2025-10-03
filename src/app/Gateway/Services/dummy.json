@@ -1,0 +1,135 @@
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vZ3cuZXhwb25lbnRhLnJ1L2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNjg5MDkyNjIyLCJleHAiOjE3MjA2Mjg2MjIsIm5iZiI6MTY4OTA5MjYyMiwianRpIjoiQlN0Q3FabkNlTEdpOE1uRCIsInN1YiI6IjQwIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.jr3IVcxGEWWudjwwyjYTJB7IsisJDs1hrFPe37oyUAA",
+    "me": {
+        "id": 40,
+        "crm_id": 1247816,
+        "nick_name": "\u0421\u0410\u0422\u0410\u041d\u0410",
+        "email": "greysnot@mail.ru",
+        "email_alt": "greysnot111@gmail.com",
+        "email_verified_at": "2020-01-14 20:55",
+        "roles": [],
+        "permissions": [
+            {
+                "id": 3,
+                "name": "posts.store"
+            },
+            {
+                "id": 4,
+                "name": "posts.update"
+            },
+            {
+                "id": 6,
+                "name": "comments.store"
+            },
+            {
+                "id": 7,
+                "name": "comments.update"
+            },
+            {
+                "id": 11,
+                "name": "dialogs.messages.storeRoot"
+            },
+            {
+                "id": 12,
+                "name": "dialogs.messages.store"
+            }
+        ],
+        "phone": "+79511077808",
+        "phone_mobile": "+79511077808",
+        "phone_verified": true,
+        "first_name": "Serj",
+        "last_name": "Serj",
+        "middle_name": "Serj",
+        "birth_date": null,
+        "sex": 1,
+        "spheres": [
+            {
+                "id": 18,
+                "title": "\u0414\u0440\u0443\u0433\u043e\u0435",
+                "is_active": 1,
+                "order": 14,
+                "description": null,
+                "tags": []
+            }
+        ],
+        "country": {
+            "id": 1,
+            "title": "\u0420\u043e\u0441\u0441\u0438\u044f",
+            "icon": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/thumb\/f\/f3\/Flag_of_Russia.svg\/44px-Flag_of_Russia.svg.png",
+            "mask": "\\+\\7(111) 111-11-11",
+            "is_active": 1,
+            "created_at": "2021-02-20T05:58:54.000000Z",
+            "updated_at": "2021-02-20T06:01:05.000000Z",
+            "order": 1,
+            "code": "7"
+        },
+        "city": {
+            "id": 2,
+            "title": "\u0420\u044f\u0437\u0430\u043d\u044c",
+            "is_active": 1,
+            "created_at": "2019-03-07T10:26:28.000000Z",
+            "updated_at": "2019-03-07T10:26:28.000000Z",
+            "b24_id": null
+        },
+        "about": "\u041f\u0415\u041a\u0423 \u0411\u041b\u0418\u041d\u042b",
+        "department": "\u0418\u0423-2",
+        "position": "GURU",
+        "institute_id": 13035,
+        "institute": {
+            "id": 13035,
+            "title": "\u0423\u043a\u0440\u0430\u0438\u043d\u0441\u043a\u0438\u0439 \u041a\u0430\u0442\u043e\u043b\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0423\u043d\u0438\u0432\u0435\u0440\u0441\u0438\u0442\u0435\u0442",
+            "name": "",
+            "url": "ucu.edu.ua",
+            "is_active": 1,
+            "lic": 0,
+            "patterns": [],
+            "faculties": [],
+            "is_education": 1
+        },
+        "pulpit_id": 125,
+        "pulpit": {
+            "id": 125,
+            "faculty_id": 109,
+            "title": "\u0418\u0423-2",
+            "is_active": 1
+        },
+        "faculty_id": 109,
+        "faculty": {
+            "id": 109,
+            "institute_id": 8264,
+            "title": "\u0418\u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0442\u0438\u043a\u0438 \u0438 \u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f",
+            "is_active": 1
+        },
+        "organization_id": 13035,
+        "industry": {
+            "id": 1,
+            "title": "\u0412\u041f\u041a, \u0410\u0432\u0438\u0430\u0446\u0438\u044f, \u041a\u043e\u0441\u043c\u043e\u0441",
+            "is_active": 1,
+            "created_at": "2019-02-21T04:08:41.000000Z",
+            "updated_at": "2022-03-04T17:10:02.000000Z",
+            "order": 11
+        },
+        "employment_type_id": 2,
+        "employment_type": {
+            "id": 2,
+            "code": "\u041f\u0440\u0435\u043f\u043e\u0434\u0430\u044e",
+            "title": "\u0420\u0430\u0431\u043e\u0442\u0430\u044e \u0432 \u0412\u0423\u0417\u0415",
+            "is_active": 1,
+            "created_at": "2023-03-03T14:18:29.000000Z",
+            "updated_at": "2023-03-03T14:18:29.000000Z"
+        },
+        "banned_at": null,
+        "engineering_experience": null,
+        "matlab": null,
+        "qualification": null,
+        "links": [],
+        "salary": null,
+        "education_institute": null,
+        "education_degree": null,
+        "education_specialty": null,
+        "education_year": null,
+        "english_level": null,
+        "cppd": 1,
+        "profile_updated_at": null
+    }
+}

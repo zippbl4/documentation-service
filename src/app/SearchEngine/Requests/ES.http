@@ -1,0 +1,63 @@
+# curl -XPOST 'http://elasticsearch:9200/r2018b/rus/_search?pretty=true' -d '{"span_near":{"clauses":[{"span_multi":{"match":{"fuzzy":{"body":"matlab"}}}}],"slop":12,"in_order":false}}'
+POST http://localhost:9200/r2018b/rus/_search?pretty=true
+Content-Type: application/json
+
+{
+    "query": {
+        "match": {
+            "body": "matlab"
+        }
+    }
+}
+
+//{
+//    "span_near":{
+//        "clauses":[{
+//            "span_multi":{
+//                "match":{
+//                    "fuzzy":{
+//                        "body":"matlab"
+//                    }
+//                }
+//            }
+//        }],
+//        "slop":12,
+//        "in_order":false
+//    }
+//}
+
+###
+
+GET http://localhost:9200/
+Accept: application/json
+
+###
+GET http://localhost:9200/r2018b/rus/index.html
+
+###
+GET localhost:9200/_cluster/settings
+
+###
+GET localhost:9200/_cluster/allocation/explain
+
+###
+POST localhost:9200/r2018b/_close
+
+###
+PUT localhost:9200/r2018b/_settings
+{
+  "analysis" : {
+    "analyzer":{
+      "content":{
+        "type":"custom",
+        "tokenizer":"whitespace"
+      }
+    }
+  }
+}
+
+###
+POST localhost:9200/r2018b/_open
+
+###
+POST localhost:9200/_features/_reset

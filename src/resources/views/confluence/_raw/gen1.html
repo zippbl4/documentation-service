@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confluence Clone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #f4f5f7;
+    }
+
+    .header {
+      background: #0747A6;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1001;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      position: relative;
+    }
+
+    .sidebar {
+      background: white;
+      width: 240px;
+      height: calc(100vh - 56px);
+      position: fixed;
+      padding: 16px;
+      border-right: 1px solid #dfe1e6;
+      z-index: 1000;
+    }
+
+    .main-content {
+      margin-left: 240px;
+      padding: 32px;
+      min-height: calc(100vh - 56px);
+    }
+
+    .create-button {
+      background: #0052CC;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-card {
+      background: white;
+      border: 1px solid #dfe1e6;
+      border-radius: 3px;
+      padding: 16px;
+      margin-bottom: 16px;
+      transition: box-shadow 0.3s;
+    }
+
+    .page-card:hover {
+      box-shadow: 0 1px 3px rgba(9, 30, 66, 0.15);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background: white;
+      border: 1px solid #dfe1e6;
+      border-radius: 3px;
+      padding: 8px;
+      margin-top: 8px;
+      min-width: 200px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 1002;
+    }
+
+    .profile-dropdown {
+      right: 0;
+      top: 100%;
+    }
+
+    .space-menu {
+      left: 100%;
+      top: 0;
+      margin-left: 8px;
+    }
+
+    .dropdown-item {
+      padding: 8px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      color: #172B4D;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .dropdown-item:hover {
+      background: #f4f5f7;
+    }
+
+    .has-dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .space-item {
+      position: relative;
+      list-style: none;
+    }
+
+    .nav-item {
+      padding: 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-item:hover {
+      background: #f4f5f7;
+    }
+
+    .space-list {
+      margin-top: 16px;
+      padding-left: 0;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .fa-user-circle {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="logo">
+    <i class="fab fa-confluence"></i>
+    <span>Confluence</span>
+  </div>
+  <div class="header-controls">
+    <button class="create-button" onclick="toggleDropdown('createDropdown')">
+      <i class="fas fa-plus"></i>
+      Создать
+    </button>
+    <div class="dropdown-menu" id="createDropdown">
+      <div class="dropdown-item">
+        <i class="fas fa-file"></i>
+        Страница
+      </div>
+      <div class="dropdown-item">
+        <i class="fas fa-users"></i>
+        Пространство
+      </div>
+    </div>
+    <div class="has-dropdown" onclick="toggleDropdown('profileDropdown')">
+      <i class="fas fa-user-circle"></i>
+      <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+        <div class="dropdown-item">
+          <i class="fas fa-user"></i>
+          Профиль
+        </div>
+        <div class="dropdown-item">
+          <i class="fas fa-cog"></i>
+          Настройки
+        </div>
+        <div class="dropdown-item">
+          <i class="fas fa-sign-out-alt"></i>
+          Выход
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="sidebar">
+  <div class="nav-item">
+    <i class="fas fa-home"></i>
+    Главная
+  </div>
+  <div class="nav-item">
+    <i class="fas fa-clock"></i>
+    Недавние
+  </div>
+  <div class="nav-item">
+    <i class="fas fa-star"></i>
+    Избранное
+  </div>
+  <div class="nav-item has-dropdown" onclick="toggleDropdown('spacesDropdown')">
+    <i class="fas fa-layer-group"></i>
+    Пространства
+    <div class="dropdown-menu" id="spacesDropdown">
+      <div class="dropdown-item">
+        <i class="fas fa-plus"></i>
+        Создать пространство
+      </div>
+      <div class="dropdown-item">
+        <i class="fas fa-search"></i>
+        Поиск пространств
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin: 16px 0 8px 0; color: #6b778c;">Ваши пространства</h4>
+  <ul class="space-list">
+    <li class="space-item" onmouseenter="showSpaceMenu(0)" onmouseleave="hideSpaceMenu(0)">
+      🚀 Product Team
+      <div class="dropdown-menu space-menu">
+        <div class="dropdown-item">
+          <i class="fas fa-pencil-alt"></i>
+          Переименовать
+        </div>
+        <div class="dropdown-item">
+          <i class="fas fa-trash"></i>
+          Удалить
+        </div>
+      </div>
+    </li>
+    <li class="space-item" onmouseenter="showSpaceMenu(1)" onmouseleave="hideSpaceMenu(1)">
+      💻 Tech Docs
+      <div class="dropdown-menu space-menu">
+        <div class="dropdown-item">
+          <i class="fas fa-pencil-alt"></i>
+          Переименовать
+        </div>
+        <div class="dropdown-item">
+          <i class="fas fa-trash"></i>
+          Удалить
+        </div>
+      </div>
+    </li>
+  </ul>
+</nav>
+
+<main class="main-content">
+  <h1>Последние страницы</h1>
+  <div class="page-grid">
+    <div class="page-card">
+      <h3>План релиза v2.0</h3>
+      <p>Обновленный план релиза новых функций</p>
+      <div style="color: #6b778c; margin-top: 8px;">
+        <small>Обновлено 2 часа назад</small>
+      </div>
+    </div>
+    <div class="page-card">
+      <h3>Стендап митинг 15.05</h3>
+      <p>Заметки со стендап митинга разработки</p>
+      <div style="color: #6b778c; margin-top: 8px;">
+        <small>Обновлено 5 часов назад</small>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    const allDropdowns = document.querySelectorAll('.dropdown-menu');
+
+    allDropdowns.forEach(d => {
+      if(d.id !== id) d.style.display = 'none';
+    });
+
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function showSpaceMenu(index) {
+    const items = document.querySelectorAll('.space-item');
+    const menu = items[index].querySelector('.space-menu');
+    menu.style.display = 'block';
+  }
+
+  function hideSpaceMenu(index) {
+    const items = document.querySelectorAll('.space-item');
+    const menu = items[index].querySelector('.space-menu');
+    menu.style.display = 'none';
+  }
+
+  window.onclick = function(event) {
+    if (!event.target.matches('.has-dropdown') &&
+      !event.target.closest('.has-dropdown') &&
+      !event.target.matches('.create-button') &&
+      !event.target.closest('.space-item')) {
+      document.querySelectorAll('.dropdown-menu').forEach(d => {
+        d.style.display = 'none';
+      });
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confluence-Style Blog Template</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9fc;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .top-menu {
+      width: 100%;
+      background-color: #253858;
+      color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-menu .logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .top-menu nav {
+      display: flex;
+      gap: 10px;
+      overflow: auto;
+    }
+
+    .top-menu nav a {
+      text-decoration: none;
+      color: #d9e1f2;
+      font-size: 1rem;
+      padding: 5px;
+      white-space: nowrap;
+    }
+
+    .top-menu nav a:hover {
+      color: #fff;
+    }
+
+    .layout {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .menu {
+      width: 220px;
+      background-color: #ffffff;
+      color: #253858;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .menu h2 {
+      font-size: 1.25rem;
+      margin: 0 0 20px 0;
+      color: #253858;
+    }
+
+    .menu ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu ul li {
+      margin-bottom: 15px;
+    }
+
+    .menu ul li a {
+      text-decoration: none;
+      color: #253858;
+      font-size: 1rem;
+      display: block;
+      padding: 5px 10px;
+      border-radius: 4px;
+      background-color: #f7f9fc;
+    }
+
+    .menu ul li a:hover {
+      background-color: #e1e8f0;
+      color: #172b4d;
+    }
+
+    .menu.secondary-menu {
+      background-color: #e3f2fd;
+    }
+
+    .menu.tertiary-menu {
+      background-color: #f9eae1;
+    }
+
+    .menu.quaternary-menu {
+      background-color: #e6f7e3;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+    }
+
+    .content h1 {
+      font-size: 1.75rem;
+      margin-bottom: 20px;
+      color: #172b4d;
+    }
+
+    .content p {
+      line-height: 1.6;
+      color: #4a4a4a;
+    }
+
+    .content a {
+      color: #0052cc;
+      text-decoration: none;
+    }
+
+    .content a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+      }
+      .menu {
+        width: 100%;
+        box-shadow: none;
+      }
+      .content {
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="top-menu">
+  <div class="logo">Blog</div>
+  <nav>
+    <a href="#">Dashboard</a>
+    <a href="#">Profile</a>
+    <a href="#">Settings</a>
+    <a href="#">Logout</a>
+  </nav>
+</div>
+<div class="layout">
+  <div>
+    <div class="menu">
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Spaces</a></li>
+        <li><a href="#">Pages</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
+    </div>
+    <div class="menu secondary-menu">
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">Community Forum</a></li>
+        <li><a href="#">Support</a></li>
+      </ul>
+    </div>
+    <div class="menu tertiary-menu">
+      <h2>Community</h2>
+      <ul>
+        <li><a href="#">Forums</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Meetups</a></li>
+        <li><a href="#">Social Media</a></li>
+      </ul>
+    </div>
+    <div class="menu quaternary-menu">
+      <h2>Tools</h2>
+      <ul>
+        <li><a href="#">Calculator</a></li>
+        <li><a href="#">Analytics</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Integrations</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="content">
+    <h1>Welcome to the Blog</h1>
+    <p>This is your blog in a Confluence-inspired layout. Use this space to share knowledge, document processes, or write articles. <a href="#">Learn more...</a></p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+@startuml
+hide footbox
+
+actor Actor
+participant App
+
+Actor -> App : /{lang}/docs/{product}/{version}/{page?}\nru/docs/howto/2.0/readme.html
+App -> DocumentationViewerController : show(\nRequest $request\n)
+DocumentationViewerController -> PageViewerInterface : showPage(\nPageRequestDTO $request\n)
+
+note left
+return new PageRequestDTO(
+    lang: 'ru',
+    product: 'howto',
+    version: '2.0',
+    page: 'readme',
+    extension: 'html',
+);
+end note
+
+group Поиск аспекта
+create AspectServiceContract
+PageViewerInterface -> AspectServiceContract : getAspectByAspectId(\n$request->getAspectId()\n)
+
+note left
+Поисковой аспект:
+
+return new AspectIdDTO(
+    lang:    'ru',
+    product: 'howto',
+    version: '2.0',
+);
+end note
+
+group Выбор стратегии поиска
+create AspectRepositoryContract
+AspectServiceContract -> AspectRepositoryContract : findByAspectId(AspectIdDTO $id)
+
+note left
+->where("lang", $id->lang)
+->where("product", $id->product)
+->where("version", $id->version)
+end note
+
+else
+AspectServiceContract -> AspectRepositoryContract : findByAspectIdRegex(AspectIdDTO $id)
+
+note left
+->whereRaw("regexp_instr(?, lang)", [$id->lang])
+->whereRaw("regexp_instr(?, product)", [$id->product])
+->whereRaw("regexp_instr(?, version)", [$id->version])
+end note
+
+end
+
+AspectRepositoryContract -> AspectServiceContract : Aspect $entity
+
+note right
+Aspect $entity со связями:
+- path
+- mappers
+- settings
+- decorators
+end note
+
+create AspectConverterInterface
+AspectServiceContract -> AspectConverterInterface : convertToAspect(Aspect $entity)
+
+AspectConverterInterface -> AspectServiceContract : AspectDTO $aspect
+
+note right
+Происходит заполнение из БД:
+
+new AspectDTO(
+    entityId: 1,
+    id: new AspectIdDTO(
+        lang: 'ru',
+        product: 'howto',
+        version: '2.0',
+    ),
+    path: new AspectPathDTO(
+        driver: 'local',
+        root: '/var/www/storage/app/docs',
+        pattern: '/{product}/{version}/{lang}/{page}.{extension}',
+    ),
+    config: new AspectConfigDTO(
+        finderProductPageExtension: null,
+        finderProductLang: null,
+    ),
+    mapper: new AspectMapperDTO(
+        items: [],
+    ),
+    decorator: new AspectDecoratorDTO(
+        items: [],
+    ),
+)
+end note
+
+AspectServiceContract -> PageViewerInterface : AspectDTO $aspect
+
+end
+
+group Формирование пути для драйвера
+
+PageViewerInterface -> PageViewerInterface : $path = $aspect->getPathBuilder()
+
+note left
+public function getPathBuilder(): AspectPathBuilder
+{
+    return new AspectPathBuilder(
+        $this->path,
+        $this->mapper,
+    );
+}
+
+end note
+
+
+
+PageViewerInterface -> PageViewerInterface : $aspect\n->getPathBuilder()\n->useFullPath()\n->setLang('ru')\n->setProduct('howto')\n->setVersion('2.0')\n->setPage('readme')\n->setExtension('md')\n...
+
+group Выбор стратегии билдера [AspectPathBuilder]
+create AspectPathBuilder
+PageViewerInterface -> AspectPathBuilder : ->buildRegex();
+else
+PageViewerInterface -> AspectPathBuilder : ->buildString();
+else
+PageViewerInterface -> AspectPathBuilder : ->buildObject();
+end
+
+AspectPathBuilder -> PageViewerInterface : BuiltPathDTO|string $path
+
+
+note right
+Происходит формирование строки|объекта для драйвера
+Исходя из входящих данных:
+- PageRequestDTO
+И данных которые имеются в AspectDTO:
+- AspectPathDTO
+- AspectMapperDTO
+end note
+
+end
+
+PageViewerInterface -> PageViewerInterface : etc
+
+@enduml

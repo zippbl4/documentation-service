@@ -1,0 +1,193 @@
+deptrac:
+  paths:
+    - ./app
+  exclude_files:
+  layers:
+    - name: Archive.Researcher
+      collectors:
+        - type: directory
+          value: app/Archive/Researcher/.*
+    - name: Archive.Unpacker
+      collectors:
+          - type: directory
+            value: app/Archive/Unpacker/.*
+    - name: Documentation.Uploader
+      collectors:
+          - type: directory
+            value: app/Documentation/Uploader/.*
+    -   name: Archive.Validation
+        collectors:
+          - type: directory
+            value: app/Archive/Validation/.*
+    - name: Auth
+      collectors:
+          - type: directory
+            value: app/Auth/.*
+    - name: ContentEngine
+      collectors:
+        - type: directory
+          value: app/ContentEngine/.*
+    - name: EloquentBuilderFilter
+      collectors:
+          - type: directory
+            value: app/EloquentBuilderFilter/.*
+    - name: Gateway
+      collectors:
+          - type: directory
+            value: app/Gateway/.*
+    - name: Menu
+      collectors:
+          - type: directory
+            value: app/Menu/.*
+    - name: Mutex
+      collectors:
+          - type: directory
+            value: app/Mutex/.*
+    - name: ObjectMapper
+      collectors:
+          - type: directory
+            value: app/ObjectMapper/.*
+    - name: Documentation.Access
+      collectors:
+          - type: directory
+            value: app/Documentation/Access/.*
+    - name: Documentation.Correction
+      collectors:
+        - type: directory
+          value: app/Documentation/Correction/.*
+    - name: Documentation.Aspect
+      collectors:
+        - type: directory
+          value: app/Documentation/Aspect/.*
+    - name: Documentation.AspectPlugin
+      collectors:
+        - type: directory
+          value: app/Documentation/AspectPlugin/.*
+    - name: Documentation.Viewer
+      collectors:
+          - type: directory
+            value: app/Documentation/Viewer/.*
+    - name: Documentation.Researcher
+      collectors:
+        - type: directory
+          value: app/Documentation/Researcher/.*
+    - name: Documentation.Searcher
+      collectors:
+          - type: directory
+            value: app/Documentation/Searcher/.*
+    - name: Page.Decorator
+      collectors:
+        - type: directory
+          value: app/Page/Decorator/.*
+    - name: Page.Driver
+      collectors:
+        - type: directory
+          value: app/Page/Driver/.*
+    - name: SearchEngine
+      collectors:
+          - type: directory
+            value: app/SearchEngine/.*
+    - name: Config
+      collectors:
+          - type: directory
+            value: app/Config/.*
+    - name: Symlink
+      collectors:
+          - type: directory
+            value: app/Symlink/.*
+    - name: TemplateEngine
+      collectors:
+        - type: directory
+          value: app/TemplateEngine/.*
+    - name: User
+      collectors:
+          - type: directory
+            value: app/User/.*
+  ruleset:
+    Archive.Researcher:
+    Archive.Unpacker:
+    Archive.Validation:
+      - Archive.Researcher
+    Auth:
+      - User
+      - Gateway
+      - TemplateEngine
+    ContentEngine:
+    Core:
+      - TemplateEngine
+    EloquentBuilderFilter:
+    Gateway:
+      - Core
+      - ObjectMapper
+      - TemplateEngine
+    Http:
+    Menu:
+      - Config
+      - Page.Driver # TODO
+      - ContentEngine
+      - Documentation.Uploader
+    Mutex:
+    Nova:
+    ObjectMapper:
+    Documentation.Aspect:
+      - Config
+      - ObjectMapper
+    Documentation.AspectPlugin:
+      - Config
+      - ObjectMapper
+      - Documentation.Aspect
+      - Page.Driver
+      - Documentation.Uploader
+      - Documentation.Researcher
+      - ContentEngine
+    Documentation.Access:
+      - Config
+    Documentation.Correction:
+      - TemplateEngine
+      - Config
+      - Auth
+      - User
+      - Page.Decorator #TODO
+    Documentation.Searcher:
+      - Config
+      - SearchEngine
+      - TemplateEngine
+      - Documentation.Viewer
+      - Documentation.Uploader
+    Documentation.Uploader:
+      - Archive.Researcher
+      - Archive.Unpacker
+      - Archive.Validation
+      - Documentation.Aspect
+      - Documentation.AspectPlugin
+      - ContentEngine
+      - Mutex
+      - Page.Driver
+      - Config
+      - User
+      - ObjectMapper
+    Documentation.Researcher:
+
+    Documentation.Viewer:
+      - Documentation.Aspect
+      - Config
+      - SearchEngine
+      - TemplateEngine
+      - Page.Decorator
+      - Page.Driver
+      - Gateway
+    Page.Decorator:
+      - TemplateEngine
+    Page.Driver:
+      - Config
+    Providers:
+    SearchEngine:
+      - ObjectMapper
+    Config:
+      - ObjectMapper
+    Symlink:
+    TemplateEngine:
+      - Config
+    User:
+
+

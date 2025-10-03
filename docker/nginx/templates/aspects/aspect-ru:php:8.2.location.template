@@ -1,0 +1,3 @@
+location ~/(ru)/(php)/(8.2)/(.*\.(png|ico|gif|jpg|jpeg|css|js|woff|ttf|svg))$ {
+    alias ${APP_RELEASE_FOLDER}php-chunked-xhtml/$4;
+}

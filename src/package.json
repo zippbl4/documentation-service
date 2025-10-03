@@ -1,0 +1,27 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "build-archive-uploader": "cd nova-components/Archive/Uploader && npm run dev",
+        "build-archive-uploader-prod": "cd nova-components/Archive/Uploader && npm run prod",
+        "build-aspect": "cd nova-components/Aspect && npm run dev",
+        "build-aspect-prod": "cd nova-components/Aspect && npm run prod"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^4.3.1",
+        "axios": "^1.1.2",
+        "laravel-vite-plugin": "^0.8.0",
+        "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "@inertiajs/vue3": "^2.0.3",
+        "codemirror": "^5.65.18",
+        "highlight.js": "^11.11.1",
+        "laravel-echo": "^1.19.0",
+        "simplemde": "^1.11.2",
+        "socket.io-client": "^4.8.1",
+        "vue": "^3.5.13"
+    }
+}

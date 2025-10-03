@@ -1,0 +1,413 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background: #FFFFFF;
+    color: #172B4D;
+    min-height: 100vh;
+}
+
+/* Шапка */
+.top-header {
+    background: #0747A6;
+    height: 60px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 20px;
+}
+
+.header-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Кнопка создания */
+.create-btn {
+    background: #0052CC;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.create-btn:hover {
+    background: #0065FF;
+}
+
+/* Боковое меню */
+.left-sidebar {
+    width: 280px;
+    background: white;
+    position: fixed;
+    top: 60px;
+    bottom: 40px;
+    left: 0;
+    border-right: 1px solid #DFE1E6;
+    overflow-y: auto;
+    padding: 20px 0;
+}
+
+.nav-section {
+    margin-bottom: 24px;
+}
+
+.nav-title {
+    color: #6B778C;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0 24px 8px;
+    letter-spacing: 0.5px;
+}
+
+.nav-item {
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #172B4D;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 14px;
+    position: relative;
+}
+
+.nav-item:hover {
+    background: #F4F5F7;
+}
+
+.nav-item i {
+    width: 20px;
+    color: #6B778C;
+}
+
+/* Вложенное меню */
+.submenu {
+    padding-left: 36px;
+    list-style: none;
+    display: none;
+}
+
+.submenu .nav-item {
+    padding: 6px 0;
+    font-size: 13px;
+}
+
+.has-children {
+    position: relative;
+}
+
+.menu-toggle {
+    margin-left: auto;
+    padding: 0 8px;
+    cursor: pointer;
+    color: #6B778C;
+    transition: transform 0.2s;
+}
+
+/* Иконки */
+.folder-icon { color: #2684FF; }
+.file-icon { color: #6B778C; }
+
+/* Основной контент */
+.main-content {
+    margin: 60px 0 40px 280px;
+    padding: 40px;
+    background: white;
+    min-height: calc(100vh - 100px);
+    border-left: 1px solid #DFE1E6;
+}
+
+h1 {
+    font-size: 32px;
+    /*margin-bottom: 24px;*/
+}
+h2 { font-size: 24px; margin: 32px 0 16px; }
+p { line-height: 1.6; margin-bottom: 16px; }
+
+.code-block {
+    background: #F4F5F7;
+    border: 1px solid #DFE1E6;
+    border-radius: 4px;
+    padding: 16px;
+    font-family: monospace;
+    margin: 16px 0;
+}
+
+.image-container {
+    margin: 24px 0;
+    border: 1px solid #DFE1E6;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Подвал */
+.footer {
+    background: white;
+    height: 40px;
+    border-top: 1px solid #DFE1E6;
+    border-left: 1px solid #DFE1E6;
+    position: fixed;
+    bottom: 0;
+    left: 280px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    color: #6B778C;
+    font-size: 14px;
+}
+
+/* Выпадающие меню */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #DFE1E6;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    min-width: 200px;
+    z-index: 1001;
+    margin-top: 8px;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: #172B4D;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background: #F4F5F7;
+}
+
+.left-sidebar {
+    width: 280px;
+    background: white;
+    position: fixed;
+    top: 60px;
+    bottom: 40px;
+    left: 0;
+    border-right: 1px solid #DFE1E6;
+    overflow-y: auto;
+    padding: 16px 0; /* Уменьшен вертикальный паддинг */
+}
+
+.nav-title {
+    padding: 0 16px 8px; /* Уменьшен левый отступ */
+    font-size: 11px; /* Уменьшен размер шрифта */
+}
+
+.nav-item {
+    padding: 6px 16px; /* Уменьшены отступы */
+    gap: 8px; /* Уменьшен зазор между иконкой и текстом */
+    font-size: 13px; /* Уменьшен размер шрифта */
+}
+
+.submenu {
+    padding-left: 24px; /* Уменьшен отступ для вложенных элементов */
+}
+
+.submenu .nav-item {
+    padding: 4px 16px; /* Уменьшены отступы для вложенных пунктов */
+    font-size: 12px; /* Уменьшен размер шрифта */
+}
+
+.menu-toggle {
+    right: 12px; /* Подвинули ближе к правому краю */
+    font-size: 10px; /* Уменьшен размер иконки */
+}
+
+/* Quill Content Rendering Styles */
+.main-content .ql-content-render {
+    #max-width: 800px;
+    #margin: 0 auto;
+    #padding: 40px 20px;
+}
+
+/* Базовые стили контента */
+.ql-editor {
+    font-size: 16px;
+    line-height: 1.6;
+    #padding: 30px 0 !important;
+    color: #172B4D;
+    padding: 0 15px;
+    /*margin-top: -2rem;*/
+    min-height: 50vh;
+}
+
+/* Заголовки */
+.ql-editor h1 {
+    font-size: 32px;
+    margin: 0 0 10px;
+    font-weight: 600;
+    color: #091E42;
+}
+
+.ql-editor h2 {
+    font-size: 28px;
+    margin: 36px 0 20px;
+    font-weight: 600;
+    color: #091E42;
+}
+
+.ql-editor h3 {
+    font-size: 24px;
+    margin: 32px 0 16px;
+    font-weight: 600;
+}
+
+/* Списки */
+.ql-editor ul,
+.ql-editor ol {
+    margin: 16px 0;
+    padding-left: 32px;
+}
+
+.ql-editor li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Блоки кода */
+.ql-editor pre.ql-syntax {
+    background: #F4F5F7;
+    border: 1px solid #DFE1E6;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 24px 0;
+    font-family: Monaco, Consolas, 'Courier New', monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    color: #172B4D;
+}
+
+/* Цитаты */
+.ql-editor blockquote {
+    border-left: 4px solid #DFE1E6;
+    margin: 20px 0;
+    padding: 8px 24px;
+    color: #6B778C;
+    font-style: italic;
+}
+
+/* Изображения */
+.ql-editor img {
+    max-width: 100%;
+    height: auto;
+    margin: 24px 0;
+    border-radius: 4px;
+    border: 1px solid #DFE1E6;
+}
+
+/* Ссылки */
+.ql-editor a {
+    color: #0052CC;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.ql-editor a:hover {
+    color: #0065FF;
+}
+
+/* Форматирование текста */
+.ql-editor strong {
+    font-weight: 600;
+}
+
+.ql-editor em {
+    font-style: italic;
+}
+
+.ql-editor u {
+    text-decoration: underline;
+}
+
+/* Горизонтальные линии */
+.ql-editor hr {
+    border: 0;
+    border-top: 1px solid #DFE1E6;
+    margin: 32px 0;
+}
+
+/* Таблицы */
+.ql-editor table {
+    border-collapse: collapse;
+    margin: 24px 0;
+    width: 100%;
+}
+
+.ql-editor td,
+.ql-editor th {
+    border: 1px solid #DFE1E6;
+    padding: 12px;
+    text-align: left;
+}
+
+.ql-editor th {
+    background: #F4F5F7;
+    font-weight: 600;
+}
+
+.ql-code-block-container {
+    background: #F4F5F7;
+    border: 1px solid #DFE1E6;
+    border-radius: 4px;
+    padding: 16px;
+    font-family: monospace;
+    margin: 16px 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .main-content .ql-content-render {
+        padding: 20px 15px;
+    }
+
+    .ql-editor {
+        padding: 20px 0 !important;
+        font-size: 15px;
+    }
+
+    .ql-editor h1 {
+        font-size: 28px;
+    }
+
+    .ql-editor h2 {
+        font-size: 24px;
+    }
+
+    .ql-editor h3 {
+        font-size: 20px;
+    }
+}

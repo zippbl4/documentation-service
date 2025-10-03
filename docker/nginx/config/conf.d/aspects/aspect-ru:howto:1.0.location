@@ -1,0 +1,8 @@
+location ~/(ru)/docs/(howto)/(2.0)/(.*\.(png|ico|gif|jpg|jpeg|css|js|woff|ttf|svg))$ {
+    set $lang    $1;
+    set $product $2;
+    set $version $3;
+    set $page    $4;
+
+    alias /var/www/storage/app/docs/$product/$version/$lang/$page;
+}

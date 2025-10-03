@@ -1,0 +1,67 @@
+@startuml
+class TaskRunnerService {
+..
+run(
+string $channelClass,
+array|string $writers,
+array|string $readers
+): void
+..
+}
+
+interface QueueTaskRunnerContract {
+..
+run(
+array|string $writers,
+array|string $readers
+): void
+..
+}
+
+class QueueTaskRunner {
+..
+run(
+array|string $writers,
+array|string $readers
+): void
+..
+}
+
+interface ReceiveHandler
+interface SenderHandler
+
+class SendToChannelJob {
+..
+handle(
+ReceiveService $service,
+HandlerClassString $handlerClassString,
+Container $container
+): void
+..
+}
+class SendService
+
+class ReceiveFromChannelJob {
+..
+handle(
+ReceiveService $service,
+HandlerClassString $handlerClassString,
+Container $container
+): void
+..
+}
+class ReceiveService
+
+
+QueueTaskRunner - TaskRunnerService: запускает >
+QueueTaskRunner <|.. QueueTaskRunnerContract
+
+
+TaskRunnerService - SendToChannelJob: запускает >
+TaskRunnerService - ReceiveFromChannelJob: запускает >
+
+SendToChannelJob *-- SendService
+SendService *-- SenderHandler
+ReceiveFromChannelJob *-- ReceiveService
+ReceiveService *-- ReceiveHandler
+@enduml

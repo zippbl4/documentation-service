@@ -1,0 +1,104 @@
+{
+    "name": "spech/matlab-documentation-v2",
+    "type": "project",
+    "description": "",
+    "keywords": [],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "ext-dom": "*",
+        "ext-mongodb": "*",
+        "ext-xhprof": "*",
+        "ext-zip": "*",
+        "advoor/nova-editor-js": "4.*",
+        "app/archive-uploader": "^0.0.4",
+        "app/aspect": "^0.0.1",
+        "app/correction-statistic": "0.1",
+        "d4h/finediff": "^1.0",
+        "doctrine/annotations": "*",
+        "doctrine/rst-parser": "^0.5.6",
+        "elasticsearch/elasticsearch": "~7.0",
+        "fivefilters/readability.php": ">=3.0",
+        "guzzlehttp/guzzle": "^7.2",
+        "inertiajs/inertia-laravel": "^0.6.11",
+        "laravel/framework": "^10.0",
+        "laravel/nova": "^4.0",
+        "laravel/sanctum": "^3.2",
+        "laravel/tinker": "^2.5",
+        "mongodb/laravel-mongodb": "^5.1",
+        "outl1ne/nova-sortable": "^3.4",
+        "pavloniym/nova-action-buttons": "^1.1",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "sebastian/diff": "^5.0",
+        "symfony/property-access": "^6.3",
+        "symfony/serializer": "^6.3"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "itsgoingd/clockwork": "^5.1",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0",
+        "qossmic/deptrac": "^2.0",
+        "spatie/laravel-ignition": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Laravel\\Nova\\": "nova/src",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/CorrectionStatistic"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Archive/Uploader"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Aspect"
+        }
+    ],
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

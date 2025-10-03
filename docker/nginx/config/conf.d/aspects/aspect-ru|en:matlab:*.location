@@ -1,0 +1,20 @@
+location ~/(ru|rus|en|eng)/docs/(matlab)/(R2018b)/(.*\.(png|ico|gif|jpg|jpeg|css|js|woff|ttf|svg))$ {
+    set $lang    $1;
+    set $product $2;
+    set $version $3;
+    set $page    $4;
+
+    if ( $lang = "ru" ) {
+        set $lang "rus";
+    }
+
+    if ( $lang = "en" ) {
+        set $lang "eng";
+    }
+
+    if ( $page ~* "(.*)%2B(.*)" ) {
+        set $page "$1+$2";
+    }
+
+    alias /var/www/storage/app/release/$version/${version}_$lang/$page;
+}

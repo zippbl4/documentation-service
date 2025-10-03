@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confluence Clone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #FFFFFF;
+      color: #172B4D;
+      min-height: 100vh;
+    }
+
+    /* Шапка */
+    .top-header {
+      background: #0747A6;
+      height: 60px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      font-size: 20px;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    /* Кнопка создания */
+    .create-btn {
+      background: #0052CC;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .create-btn:hover {
+      background: #0065FF;
+    }
+
+    /* Боковое меню */
+    .left-sidebar {
+      width: 280px;
+      background: white;
+      position: fixed;
+      top: 60px;
+      bottom: 40px;
+      left: 0;
+      border-right: 1px solid #DFE1E6;
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-title {
+      color: #6B778C;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 0 24px 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-item {
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #172B4D;
+      text-decoration: none;
+      transition: background 0.2s;
+      font-size: 14px;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: #F4F5F7;
+    }
+
+    .nav-item i {
+      width: 20px;
+      color: #6B778C;
+    }
+
+    /* Вложенное меню */
+    .submenu {
+      padding-left: 36px;
+      list-style: none;
+      display: none;
+    }
+
+    .submenu .nav-item {
+      padding: 6px 0;
+      font-size: 13px;
+    }
+
+    .has-children {
+      position: relative;
+    }
+
+    .menu-toggle {
+      margin-left: auto;
+      padding: 0 8px;
+      cursor: pointer;
+      color: #6B778C;
+      transition: transform 0.2s;
+    }
+
+    /* Иконки */
+    .folder-icon { color: #2684FF; }
+    .file-icon { color: #6B778C; }
+
+    /* Основной контент */
+    .main-content {
+      margin: 60px 0 40px 280px;
+      padding: 40px;
+      background: white;
+      min-height: calc(100vh - 100px);
+      border-left: 1px solid #DFE1E6;
+    }
+
+    h1 { font-size: 32px; margin-bottom: 24px; }
+    h2 { font-size: 24px; margin: 32px 0 16px; }
+    p { line-height: 1.6; margin-bottom: 16px; }
+
+    .code-block {
+      background: #F4F5F7;
+      border: 1px solid #DFE1E6;
+      border-radius: 4px;
+      padding: 16px;
+      font-family: monospace;
+      margin: 16px 0;
+    }
+
+    .image-container {
+      margin: 24px 0;
+      border: 1px solid #DFE1E6;
+      border-radius: 4px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    /* Подвал */
+    .footer {
+      background: white;
+      height: 40px;
+      border-top: 1px solid #DFE1E6;
+      border-left: 1px solid #DFE1E6;
+      position: fixed;
+      bottom: 0;
+      left: 280px;
+      right: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      color: #6B778C;
+      font-size: 14px;
+    }
+
+    /* Выпадающие меню */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #DFE1E6;
+      border-radius: 4px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      min-width: 200px;
+      z-index: 1001;
+      margin-top: 8px;
+    }
+
+    .dropdown-item {
+      padding: 12px 16px;
+      color: #172B4D;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: #F4F5F7;
+    }
+
+    .left-sidebar {
+      width: 280px;
+      background: white;
+      position: fixed;
+      top: 60px;
+      bottom: 40px;
+      left: 0;
+      border-right: 1px solid #DFE1E6;
+      overflow-y: auto;
+      padding: 16px 0; /* Уменьшен вертикальный паддинг */
+    }
+
+    .nav-title {
+      padding: 0 16px 8px; /* Уменьшен левый отступ */
+      font-size: 11px; /* Уменьшен размер шрифта */
+    }
+
+    .nav-item {
+      padding: 6px 16px; /* Уменьшены отступы */
+      gap: 8px; /* Уменьшен зазор между иконкой и текстом */
+      font-size: 13px; /* Уменьшен размер шрифта */
+    }
+
+    .submenu {
+      padding-left: 24px; /* Уменьшен отступ для вложенных элементов */
+    }
+
+    .submenu .nav-item {
+      padding: 4px 16px; /* Уменьшены отступы для вложенных пунктов */
+      font-size: 12px; /* Уменьшен размер шрифта */
+    }
+
+    .menu-toggle {
+      right: 12px; /* Подвинули ближе к правому краю */
+      font-size: 10px; /* Уменьшен размер иконки */
+    }
+  </style>
+</head>
+<body>
+<!-- Шапка -->
+<header class="top-header">
+  <div class="logo">
+    <i class="fab fa-confluence"></i>
+    <span>Confluence</span>
+  </div>
+  <div class="header-controls">
+    <div class="dropdown-wrapper">
+      <button class="create-btn" onclick="toggleMenu('createMenu')">
+        <i class="fas fa-plus"></i>
+        Создать
+      </button>
+      <div class="dropdown-menu" id="createMenu">
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-file"></i>
+          Страница
+        </a>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-users"></i>
+          Пространство
+        </a>
+      </div>
+    </div>
+    <div class="dropdown-wrapper">
+      <div class="user-menu-trigger" onclick="toggleMenu('userMenu')">
+        <i class="fas fa-user-circle fa-lg"></i>
+      </div>
+      <div class="dropdown-menu" id="userMenu">
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-user"></i>
+          Профиль
+        </a>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-cog"></i>
+          Настройки
+        </a>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-sign-out-alt"></i>
+          Выход
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Боковое меню -->
+<nav class="left-sidebar">
+  <div class="nav-section">
+    <div class="nav-title">Навигация</div>
+    <a href="#" class="nav-item">
+      <i class="fas fa-home folder-icon"></i>
+      Главная
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-clock folder-icon"></i>
+      Недавние
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-star folder-icon"></i>
+      Избранное
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">Пространства</div>
+    <div class="has-children">
+      <a href="#" class="nav-item" onclick="toggleSubmenu(this)">
+        <i class="fas fa-folder folder-icon"></i>
+        Техническая документация
+        <i class="menu-toggle fas fa-chevron-down"></i>
+      </a>
+      <ul class="submenu">
+        <li class="has-children">
+          <a href="#" class="nav-item" onclick="toggleSubmenu(this)">
+            <i class="fas fa-folder folder-icon"></i>
+            Архитектура
+            <i class="menu-toggle fas fa-chevron-down"></i>
+          </a>
+          <ul class="submenu">
+            <li><a href="#" class="nav-item">
+              <i class="fas fa-file file-icon"></i>
+              Схема данных
+            </a></li>
+          </ul>
+        </li>
+        <li><a href="#" class="nav-item">
+          <i class="fas fa-file file-icon"></i>
+          API документация
+        </a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Основной контент -->
+<main class="main-content">
+  <h1>Добро пожаловать в Confluence</h1>
+
+  <h2>Новая страница</h2>
+  <p>Пример текста с разными элементами:</p>
+
+  <div class="code-block">
+    // Пример кода
+    function helloConfluence() {
+    console.log("Добро пожаловать!");
+    }
+  </div>
+
+  <h2>Списки</h2>
+  <ul>
+    <li>Элемент списка 1</li>
+    <li>Элемент списка 2</li>
+  </ul>
+
+  <div class="image-container">
+    <img src="https://via.placeholder.com/800x400" alt="Пример изображения">
+  </div>
+</main>
+
+<!-- Подвал -->
+<footer class="footer">
+  <span>© 2024 Confluence Clone</span>
+</footer>
+
+<script>
+  function toggleMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function toggleSubmenu(element) {
+    const parent = element.closest('.has-children');
+    const submenu = parent.querySelector('.submenu');
+    const icon = element.querySelector('.menu-toggle');
+
+    submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    icon.classList.toggle('fa-chevron-down');
+    icon.classList.toggle('fa-chevron-up');
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown-wrapper')) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.style.display = 'none';
+      });
+    }
+  });
+</script>
+</body>
+</html>

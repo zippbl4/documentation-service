@@ -1,0 +1,42 @@
+upstream backend {
+    server ${NGINX_BACKEND_UPSTREAM};
+}
+
+server {
+    listen 80;
+    listen 443 ssl http2;
+
+    root /var/www/public;
+    index index.php;
+
+    ssl_certificate /etc/nginx/certs/localhost.crt;
+    ssl_certificate_key /etc/nginx/certs/localhost.decrypted.key;
+    ssl_session_timeout  5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 SSLv2 SSLv3;
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    sendfile on;
+    client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};
+    client_body_temp_path ${NGINX_CLIENT_BODY_TEMP_PATH};
+
+    access_log ${NGINX_ACCESS_LOG};
+    error_log  ${NGINX_ERROR_LOG};
+
+    keepalive_timeout  65;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass backend;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+        fastcgi_send_timeout 21600;
+        fastcgi_read_timeout 21600;
+    }
+
+    include /etc/nginx/conf.d/aspects/aspect-*.location;
+    include /etc/nginx/conf.d/aspects_unsafe/aspect-*.location;
+}

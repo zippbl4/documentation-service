@@ -1,0 +1,47 @@
+@startuml
+actor Actor
+participant App
+
+Actor -> App : /{lang}/docs/{product}/{version}/{page?}\nru/docs/howto/2.0/readme.html
+App -> DocumentationViewerController : show(\nRequest $request\n)
+DocumentationViewerController -> PageViewerInterface : showPage(\nPageRequestDTO $request\n)
+
+group Поиск аспекта
+create AspectServiceContract
+PageViewerInterface <-> AspectServiceContract : $aspect = getAspectByAspectId(\n$request->getAspectId()\n)
+end
+
+AspectServiceContract -[#red]> Actor : AspectNotFoundException
+destroy AspectServiceContract
+
+PageViewerInterface -> PageViewerInterface : $path = $aspect->getPathBuilder()
+
+group Поиск драйвера
+create DriverFactoryInterface
+PageViewerInterface -> DriverFactoryInterface : getDriver(\n$aspect->getDriver()\n)
+DriverFactoryInterface -> PageViewerInterface : Driver
+end
+
+DriverFactoryInterface -[#red]> Actor : DriverException
+destroy DriverFactoryInterface
+
+group Получение контента
+create Driver
+PageViewerInterface -> Driver : showPage(\n$path\n)
+Driver -> PageViewerInterface : $driverResponse
+end
+
+Driver -[#red]> Actor : DriverException
+destroy Driver
+
+group Декорирование контента
+create ContentDecorationInterface
+PageViewerInterface -> ContentDecorationInterface : decorate(\n$driverResponse,\n$aspect->decorator,\nContext\n)
+ContentDecorationInterface -> PageViewerInterface : $decoratedContent
+end
+
+PageViewerInterface -> DocumentationViewerController : PageResponseDTO()
+DocumentationViewerController -> App : Response
+App -[#green]> Actor : Html
+
+@enduml
